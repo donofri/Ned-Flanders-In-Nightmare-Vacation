@@ -6,9 +6,9 @@ Ned Flanders needs a vacation!, However the Squidport has something more siniste
 
 **Contents**
 
-Mission scripts
-LUA Scripts
-Ini files
-Misc. Scripts
+Mission scripts,
+LUA Scripts,
+Ini files,
+Misc. Scripts.
 
 *Developed by Thomas Donofri and Mihai Ficiu.*
