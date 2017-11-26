@@ -1,0 +1,161 @@
+-- Developed by Thomas Donofri and Mihai Ficiu https://github.com/donofri/Ned-Flanders-In-Nightmare-Vacation
+SelectMission("m1")
+
+SetMissionResetPlayerInCar("m1_ned_carstart")
+SetDynaLoadData("l6r2.p3d;l6z2.p3d;l6z3.p3d;")
+SetNumValidFailureHints( 5 )
+UsePedGroup(0)
+
+AddStage(0)
+	SetStageMessageIndex(03)
+	SetHUDIcon( "hype" )
+	AddObjective( "goto" )
+		AddStageCharacter("ned", "", "", "current", "m1_ned_carstart" )
+		SetDestination( "m1_hype_goto", "carsphere")
+		AddStageVehicle("hype_v","m1_hypecar","NULL","Missions\\level01\\M1_hype.con")
+		SetCollectibleEffect("wrench_collect")
+	CloseObjective()
+	if Mode.IsHard then
+    SetStageTime(30)
+	else
+	SetStageTime(37)
+	end
+	AddCondition( "timeout" )
+		--SetHitNRun()
+	CloseCondition()
+CloseStage()
+
+AddStage(1)
+SetHUDIcon("hype")
+SetStageMessageIndex(04)
+AddObjective("goto")
+SetDestination("m1_hype_carjack","triggersphere")
+MustActionTrigger()
+SetFadeOut(0.1)
+CloseObjective()
+if Mode.IsHard then
+SetStageTime(10)
+else
+SetStageTime(20)
+end
+AddCondition( "timeout" )
+	--SetHitNRun()
+CloseStage()
+
+AddStage(2)
+	SetStageMessageIndex(05)
+	SetHUDIcon( "observ" )
+    AddObjective( "goto" )
+		AddStageCharacter("ned", "", "", "hype_v", "m1_hypecar" )
+		AddStageVehicle("SUVB","m1_suv","NULL","cNerd.con")
+		AddNPC("burns", "m1_burns_sd")
+     	SetDestination( "m1_obs_goto", "carsphere")
+		SetCollectibleEffect("wrench_collect")
+	CloseObjective()
+	SetStageTime(120) 
+	AddCondition( "timeout" )
+		--SetHitNRun()
+	CloseCondition()
+CloseStage()
+
+AddStage(3)
+	SetStageMessageIndex(06)
+	SetHUDIcon("burns")
+	AddObjective("talkto")
+		AddNPC("burns", "m1_burns_sd")
+        SetTalkToTarget("burns", 0, 0)
+	CloseObjective()
+CloseStage()
+
+
+AddStage()
+SetHUDIcon("burns")
+SetStageMessageIndex(10)
+AddObjective("timer")
+SetDurationTime(1.5)
+CloseObjective()
+CloseStage()
+
+AddStage(4)
+--SetHUDIcon("lundry")
+SetStageMessageIndex(07)
+AddObjective("goto")
+SetDestination("m1_suv_carjack","triggersphere")
+MustActionTrigger()
+SetFadeOut(0.1)
+CloseObjective()
+if Mode.IsHard then
+SetStageTime(10)
+else
+SetStageTime(20)
+end
+AddCondition( "timeout" )
+	--SetHitNRun()
+CloseStage()
+
+AddStage(5)
+	SetStageMessageIndex(08)
+	SetHUDIcon( "casino" )
+    AddObjective( "goto" )
+		AddStageCharacter("ned", "", "", "SUVB", "m1_suv" )
+        AddStageVehicle("wiggu_v","m1_wiggum_car","NULL","Missions\\level02\\M2chase.con", "wiggum")
+		AddNPC("smithers", "ambient_burns")
+     	SetDestination( "m1_casino_goto", "carsphere")
+		SetCollectibleEffect("wrench_collect")
+	CloseObjective()
+	SetStageTime(120) 
+	AddCondition( "timeout" )
+		--SetHitNRun()
+	CloseCondition()
+CloseStage()
+
+AddStage(6)
+    SetStageMessageIndex(09)
+    SetStageTime(75)
+    ActivateVehicle("wiggu_v","NULL","chase")
+    SetHUDIcon( "wiggu_v" )
+    SetVehicleAIParams( "wiggu_v", -10, -9 )   -- no shortcuts
+    AddObjective("losetail")
+        SetObjTargetVehicle("wiggu_v")
+		if Mode.IsEasy then
+        SetObjDistance(100)
+		else
+		SetObjDistance(150)
+		end
+    CloseObjective()
+	if Mode.IsNormal then
+    SetStageTime(40) AddCondition("timeout") CloseCondition()
+	end
+	if Mode.IsHard then
+	SetStageTime(30) AddCondition("timeout") CloseCondition()
+	end
+    ShowStageComplete()
+CloseStage()
+
+AddStage(7)
+	SetStageMessageIndex(08)
+	SetHUDIcon( "casino" )
+    AddObjective( "goto" )
+		AddNPC("smithers", "ambient_burns")
+     	SetDestination( "m1_casino_goto", "carsphere")
+		SetCollectibleEffect("wrench_collect")
+	CloseObjective()
+	AddStageTime(30) 
+	AddCondition( "timeout" )
+		--SetHitNRun()
+	CloseCondition()
+CloseStage()
+
+AddStage("final")
+	SetStageMessageIndex(02)
+	SetHUDIcon("smithers")
+	AddObjective("talkto")
+		AddNPC("smithers", "ambient_burns")
+        AddObjectiveNPCWaypoint( "smithers", "burns_walk1" )
+		AddObjectiveNPCWaypoint( "smithers", "burns_walk2" )
+		AddObjectiveNPCWaypoint( "smithers", "burns_walk1" )
+		SetTalkToTarget("smithers", 0, 0)
+	CloseObjective()
+CloseStage()
+
+CloseMission()
